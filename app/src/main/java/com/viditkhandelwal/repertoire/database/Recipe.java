@@ -1,19 +1,20 @@
 package com.viditkhandelwal.repertoire.database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
 
     private int id;
     private String name;
-    private String time;
+    private int time;
     private int serves;
     private boolean isFavorite;
-    private List<String> ingredients;
-    private List<String> procedure;
+    private String ingredients;
+    private String procedure;
     private byte[] image;
 
-    public Recipe(int id, String name, String time, int serves, boolean isFavorite, List<String> ingredients, List<String> procedure, byte[] image) {
+    public Recipe(int id, String name, int time, int serves, boolean isFavorite, String ingredients, String procedure) {
         this.id = id;
         this.name = name;
         this.time = time;
@@ -21,70 +22,118 @@ public class Recipe {
         this.isFavorite = isFavorite;
         this.ingredients = ingredients;
         this.procedure = procedure;
-        this.image = image;
+    }
+
+    public static List<String> parse(String s)
+    {
+        String[] lines = s.split(",");
+        List<String> result = new ArrayList<String>();
+        for(int i = 0; i<lines.length; i++)
+        {
+            String line = String.valueOf(i+1)+" "+lines[i];
+            line = line.trim();
+            result.add(line);
+        }
+        return result;
+    }
+
+    public static String parseTime(int time)
+    {
+        String result;
+        if(time<=60)
+        {
+            return String.valueOf(time);
+        }
+        else
+        {
+            int h = time/60;
+            int m = time%60;
+            if(h>1)
+            {
+                result = String.valueOf(h)+" hours ";
+            }
+            else
+            {
+               result = String.valueOf(h)+" hour ";
+            }
+            if(m>0)
+            {
+                result += "and "+String.valueOf(m);
+                if(m==1)
+                {
+                    result+=" minute";
+                }
+                else
+                {
+                    result+=" minutes";
+                }
+            }
+        }
+        return result.trim();
+    }
+
+    public static int parseTime(String time)
+    {
+        String[] tokens = time.split(" ");
+        int result=0;
+        result += Integer.valueOf(tokens[0])*60;
+        if(tokens.length>2)
+        {
+            result += Integer.valueOf(tokens[3]);
+        }
+        return result;
+    }
+
+    public static boolean parseFavorite(int isFavorite)
+    {
+        if(isFavorite == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public static int parseFavorite(boolean isFavorite)
+    {
+        if(isFavorite)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTime() {
+    public int getTime() {
         return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public int getServes() {
         return serves;
     }
 
-    public void setServes(int serves) {
-        this.serves = serves;
-    }
-
     public boolean isFavorite() {
         return isFavorite;
     }
 
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
-    }
-
-    public List<String> getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public List<String> getProcedure() {
+    public String getProcedure() {
         return procedure;
-    }
-
-    public void setProcedure(List<String> procedure) {
-        this.procedure = procedure;
     }
 
     public byte[] getImage() {
         return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 }

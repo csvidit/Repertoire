@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.viditkhandelwal.repertoire.database.DBHelper;
 import com.viditkhandelwal.repertoire.database.Recipe;
 import com.viditkhandelwal.repertoire.databinding.ActivityHomeBinding;
 
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityHomeBinding binding;
     private List<Recipe> recipes;
@@ -24,21 +26,31 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        recipes = new ArrayList<Recipe>();
-
-        setRecipeList();
-
-        CustomAdapter adapter = new CustomAdapter(recipes, this);
-        binding.listviewRecipes.setAdapter(adapter);
+//        DBHelper helper = DBHelper.getInstance(this);
+//        recipes = helper.getAllRecipes();
 
 
-        binding.
+//        CustomAdapter adapter = new CustomAdapter(recipes, this);
+//        binding.listviewRecipes.setAdapter(adapter);
+        binding.buttonAddRecipe.setOnClickListener(this);
 
     }
 
     private void setRecipeList()
     {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId())
+        {
+            case R.id.button_add_recipe:
+                Intent toAddRecipe = new Intent(this, AddRecipeActivity.class);
+                startActivity(toAddRecipe);
+                break;
+        }
 
     }
 }

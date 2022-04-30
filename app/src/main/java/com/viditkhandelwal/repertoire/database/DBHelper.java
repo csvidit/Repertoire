@@ -1,14 +1,20 @@
 package com.viditkhandelwal.repertoire.database;
 
-import android.content.Context;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -24,7 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COL_IS_FAVORITE="is_favorite";
     public static final String COL_INGREDIENTS="ingredients";
     public static final String COL_PROCEDURE="procedure";
-    public static final String COL_IMAGE="image";
+//    public static final String COL_IMAGE="image";
 
     public static DBHelper myInstance;
 
@@ -44,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 COL_IS_FAVORITE+" INTEGER,"+
                 COL_INGREDIENTS+" TEXT NOT NULL,"+
                 COL_PROCEDURE+" TEXT NOT NULL,"+
-                COL_IMAGE+" BLOB,"+
+//                COL_IMAGE+" BLOB,"+
                 "PRIMARY KEY("+COL_RECIPE_ID+"AUTOINCREMENT)"+
                 ")";
 
@@ -57,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public DBHelper getInstance(Context context)
+    public static DBHelper getInstance(Context context)
     {
         if(myInstance == null)
         {
@@ -79,22 +85,59 @@ public class DBHelper extends SQLiteOpenHelper {
         int idx_is_favorite = cursor.getColumnIndex(COL_IS_FAVORITE);
         int idx_ingredients = cursor.getColumnIndex(COL_INGREDIENTS);
         int idx_procedure = cursor.getColumnIndex(COL_PROCEDURE);
-        int idx_image = cursor.getColumnIndex(COL_IMAGE);
+//        int idx_image = cursor.getColumnIndex(COL_IMAGE);
+
+        List<Recipe> recipes = new ArrayList<Recipe>();
 
         if(cursor.moveToFirst())
         {
             do {
 
                 int id = cursor.getInt(idx_id);
+                String name = cursor.getString(idx_name);
+                int time = cursor.getInt(idx_time);
+                int serves = cursor.getInt(idx_serves);
+                int isFavorite = cursor.getInt(idx_is_favorite);
+                String ingredients = cursor.getString(idx_ingredients);
+                String procedure = cursor.getString(idx_procedure);
 
-                byte[] photo  = cursor.getBlob(idx_image);
-                ByteArrayInputStream imageStream = new ByteArrayInputStream(photo);
-                Bitmap bitmap= BitmapFactory.decodeStream(imageStream);
-                image.setImageBitmap(bitmap);
+                recipes.add(new Recipe(id, name, time, serves,
+                        Recipe.parseFavorite(isFavorite), ingredients, procedure));
+
+
+//                byte[] photo  = cursor.getBlob(idx_image);
+//                Drawable image = new BitmapDrawable(getResources(),
+//                        BitmapFactory.decodeByteArray(b, 0, b.length));
 
 
             }while(cursor.moveToNext());
         }
+        return recipes;
 
+    }
+
+    public long insertRecipe(Recipe recipe)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_NAME, recipe.getName());
+        cv.put(COL_TIME, recipe.getTime());
+        cv.put(COL_SERVES, recipe.getServes());
+        cv.put(COL_IS_FAVORITE, Recipe.parseFavorite(recipe.isFavorite()));
+        cv.put(COL_INGREDIENTS, recipe.getIngredients());
+        cv.put(COL_PROCEDURE, recipe.getProcedure());
+
+        long result = db.insert(TABLE_RECIPE, null, cv);
+
+        db.close();
+        return result;
+    }
+
+    public int deleteRecipe(Recipe recipe)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        String whereClause = String.format("%s = %o", COL_RECIPE_ID, recipe.getId());
+        int result = db.delete(TABLE_RECIPE, whereClause, null);
+        return result;
     }
 }
