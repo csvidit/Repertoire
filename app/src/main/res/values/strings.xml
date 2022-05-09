@@ -9,6 +9,8 @@
     <string name="label_ingredients">Ingredients</string>
     <string name="label_procedure">Procedure</string>
     <string name="title_activity_add_recipe">AddRecipeActivity</string>
+    <string name="label_fav">Wanna make this a favorite?</string>
+    <string name="label_plus">+</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

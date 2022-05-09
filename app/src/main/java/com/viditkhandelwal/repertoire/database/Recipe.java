@@ -24,6 +24,15 @@ public class Recipe {
         this.procedure = procedure;
     }
 
+    public Recipe(String name, int time, int serves, boolean isFavorite, String ingredients, String procedure) {
+        this.name = name;
+        this.time = time;
+        this.serves = serves;
+        this.isFavorite = isFavorite;
+        this.ingredients = ingredients;
+        this.procedure = procedure;
+    }
+
     public static List<String> parse(String s)
     {
         String[] lines = s.split(",");

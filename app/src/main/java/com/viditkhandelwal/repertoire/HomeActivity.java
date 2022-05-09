@@ -19,6 +19,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     ActivityHomeBinding binding;
     private List<Recipe> recipes;
+    CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +27,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//        DBHelper helper = DBHelper.getInstance(this);
-//        recipes = helper.getAllRecipes();
-
-
-//        CustomAdapter adapter = new CustomAdapter(recipes, this);
-//        binding.listviewRecipes.setAdapter(adapter);
+        setRecipeList();
         binding.buttonAddRecipe.setOnClickListener(this);
-
     }
 
     private void setRecipeList()
     {
-
+        DBHelper helper = DBHelper.getInstance(this);
+        recipes = helper.getAllRecipes();
+        adapter = new CustomAdapter(recipes, this);
+        binding.listviewRecipes.setAdapter(adapter);
     }
 
     @Override

@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.1947463768115942" />
         <entry key="app/src/main/res/layout/list_recipes.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/list_recipes_row.xml" value="0.1947463768115942" />
       </map>
     </option>
   </component>

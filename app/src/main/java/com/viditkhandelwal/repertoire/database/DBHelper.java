@@ -51,7 +51,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 COL_INGREDIENTS+" TEXT NOT NULL,"+
                 COL_PROCEDURE+" TEXT NOT NULL,"+
 //                COL_IMAGE+" BLOB,"+
-                "PRIMARY KEY("+COL_RECIPE_ID+"AUTOINCREMENT)"+
+                "PRIMARY KEY("+COL_RECIPE_ID+" AUTOINCREMENT)"+
                 ")";
 
         db.execSQL(sql);
@@ -116,7 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public long insertRecipe(Recipe recipe)
+    public long addRecipe(Recipe recipe)
     {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
