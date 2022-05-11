@@ -1,15 +1,22 @@
 package com.viditkhandelwal.repertoire;
 
+import static com.viditkhandelwal.repertoire.Utils.LOG_TAG;
+
 import androidx.annotation.ColorInt;
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -21,7 +28,9 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private ActivityAddRecipeBinding binding;
     private EditText currentIngredient;
+    private int numIngredients;
     private EditText currentProcedure;
+    private int numProcedureSteps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +39,25 @@ public class AddRecipeActivity extends AppCompatActivity {
         binding = ActivityAddRecipeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         currentIngredient = binding.edittextIngredients;
+        numIngredients = 0;
         currentProcedure = binding.edittextProcedure;
+        numProcedureSteps = 0;
         binding.buttonSubmitRecipe.setOnClickListener(button_submit_recipe_clickListener);
         binding.buttonAddIngredient.setOnClickListener(button_add_ingredient_clickListener);
+        binding.buttonAddProcedureStep.setOnClickListener(button_add_procedure_step_clickListener);
+        Log.d(LOG_TAG, "Current Ingredient EditText ID: "+currentIngredient.getId());
+        Log.d(LOG_TAG, "Current Procedure Step EditText ID: "+currentProcedure.getId());
     }
 
     private View.OnClickListener button_add_ingredient_clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             ViewGroup parent = binding.getRoot();
-            ConstraintLayout layout = binding.constraintlayoutAddRecipe;
             EditText newIngredientEditText = generateIngredientView();
+            currentIngredient = newIngredientEditText;
+            Log.d(LOG_TAG, "New Ingredient EditText ID: "+currentIngredient.getId());
+            LinearLayout layout = binding.linearlayoutAddIngredients;
             layout.addView(newIngredientEditText);
-            setContentView(binding.getRoot());
         }
     };
 
@@ -50,21 +65,37 @@ public class AddRecipeActivity extends AppCompatActivity {
     {
         EditText editText = new EditText(this);
         editText.setTextColor(getResources().getColor(R.color.white));
-        ConstraintSet newConstraints = new ConstraintSet();
-        newConstraints.clone(binding.constraintlayoutAddRecipe);
-        newConstraints.connect(editText.getId(), ConstraintSet.TOP, currentIngredient.getId(),
-                ConstraintSet.BOTTOM, 20);
-        newConstraints.connect(editText.getId(), ConstraintSet.START, binding.guideline12.getId(),
-                ConstraintSet.START);
-        newConstraints.applyTo(binding.constraintlayoutAddRecipe);
-        currentIngredient = editText;
-        newConstraints.connect(binding.buttonAddIngredient.getId(), ConstraintSet.TOP,
-                currentIngredient.getId(), ConstraintSet.BOTTOM, 20);
-        newConstraints.connect(binding.buttonAddIngredient.getId(), ConstraintSet.START,
-                currentIngredient.getId(), ConstraintSet.START);
-        newConstraints.connect(binding.buttonAddIngredient.getId(), ConstraintSet.END,
-                currentIngredient.getId(), ConstraintSet.END);
-        newConstraints.applyTo(binding.constraintlayoutAddRecipe);
+        editText.setLinkTextColor(getResources().getColor(R.color.white));
+        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.white));
+        editText.setBackgroundTintList(colorStateList);
+        ViewGroup.LayoutParams newParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        editText.setLayoutParams(newParams);
+        editText.setId(View.generateViewId());
+        return editText;
+    }
+
+    private View.OnClickListener button_add_procedure_step_clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ViewGroup parent = binding.getRoot();
+            EditText newProcedureStepEditText = generateProcedureView();
+            currentProcedure = newProcedureStepEditText;
+            Log.d(LOG_TAG, "New Procedure Step EditText ID: "+currentProcedure.getId());
+            LinearLayout layout = binding.linearlayoutAddProcedure;
+            layout.addView(newProcedureStepEditText);
+        }
+    };
+
+    private EditText generateProcedureView()
+    {
+        EditText editText = new EditText(this);
+        editText.setTextColor(getResources().getColor(R.color.white));
+        editText.setLinkTextColor(getResources().getColor(R.color.white));
+        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.white));
+        editText.setBackgroundTintList(colorStateList);
+        ViewGroup.LayoutParams newParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        editText.setLayoutParams(newParams);
+        editText.setId(View.generateViewId());
         return editText;
     }
 

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollview_add_recipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -13,14 +14,14 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline11"
+            android:id="@+id/guideline_add_recipe_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline12"
+            android:id="@+id/guideline_add_recipe_left_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -39,55 +40,38 @@
             android:textColorHint="@color/white"
             android:textColorLink="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/textview_time_taken"
-            app:layout_constraintEnd_toStartOf="@+id/guideline13"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right_1"
             app:layout_constraintTop_toTopOf="@+id/textview_time_taken" />
 
+        <EditText
+            android:id="@+id/edittext_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:inputType="number"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/textview_label_name"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right_1"
+            app:layout_constraintTop_toTopOf="@+id/textview_label_name" />
+
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline7"
+            android:id="@+id/guideline_add_recipe_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline14"
+            android:id="@+id/guideline_add_recipe_top_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintGuide_percent="0.175" />
-
-        <EditText
-            android:id="@+id/edittext_ingredients"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/white"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@color/white"
-            android:textColorLink="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
-            app:layout_constraintTop_toBottomOf="@+id/textview_label_ingredients" />
-
-        <EditText
-            android:id="@+id/edittext_procedure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/white"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@color/white"
-            android:textColorLink="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
-            app:layout_constraintTop_toBottomOf="@+id/textview_label_procedure" />
 
         <TextView
             android:id="@+id/textview_label_add_recipe"
@@ -97,11 +81,11 @@
             android:text="@string/label_add_recipe"
             android:textColor="@color/white"
             android:textSize="40sp"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            app:layout_constraintTop_toTopOf="@+id/guideline4" />
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left"
+            app:layout_constraintTop_toTopOf="@+id/guideline_add_recipe_top" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
+            android:id="@+id/guideline_add_recipe_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -116,7 +100,7 @@
             android:text="@string/label_time_taken"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
             app:layout_constraintTop_toBottomOf="@+id/textview_label_name" />
 
         <EditText
@@ -131,7 +115,7 @@
             android:textColorHint="@color/white"
             android:textColorLink="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/textview_label_serves"
-            app:layout_constraintEnd_toStartOf="@+id/guideline13"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right_1"
             app:layout_constraintTop_toTopOf="@+id/textview_label_serves" />
 
         <TextView
@@ -143,11 +127,11 @@
             android:text="@string/label_serves"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
             app:layout_constraintTop_toBottomOf="@+id/textview_time_taken" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline13"
+            android:id="@+id/guideline_add_recipe_right_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -163,8 +147,28 @@
             android:text="@string/label_ingredients"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
             app:layout_constraintTop_toBottomOf="@+id/textview_label_serves" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_add_ingredients"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
+            app:layout_constraintTop_toBottomOf="@+id/textview_label_ingredients">
+
+            <EditText
+                android:id="@+id/edittext_ingredients"
+                android:layout_width="245dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textview_label_procedure"
@@ -175,7 +179,7 @@
             android:text="@string/label_procedure"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
             app:layout_constraintTop_toBottomOf="@+id/button_add_ingredient" />
 
         <TextView
@@ -187,23 +191,30 @@
             android:text="@string/label_recipe_name"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
             app:layout_constraintTop_toBottomOf="@+id/textview_label_add_recipe" />
 
-        <EditText
-            android:id="@+id/edittext_recipe_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearlayout_add_procedure"
+            android:layout_width="245dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@color/white"
-            android:textColorLink="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/textview_label_name"
-            app:layout_constraintEnd_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toTopOf="@+id/textview_label_name" />
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
+            app:layout_constraintTop_toBottomOf="@+id/textview_label_procedure">
+
+            <EditText
+                android:id="@+id/edittext_procedure"
+                android:layout_width="245dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="@color/white"
+                android:textColorLink="@color/white" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/button_submit_recipe"
@@ -216,8 +227,8 @@
             android:text="@string/label_add_recipe"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline13"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right_1"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
             app:layout_constraintTop_toBottomOf="@+id/checkbox_is_favorite" />
 
         <Button
@@ -229,10 +240,24 @@
             android:fontFamily="@font/manrope"
             android:text="@string/label_plus"
             android:textColor="@color/black"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="@+id/edittext_ingredients"
-            app:layout_constraintStart_toStartOf="@+id/edittext_ingredients"
-            app:layout_constraintTop_toBottomOf="@+id/edittext_ingredients" />
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="@+id/linearlayout_add_ingredients"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
+            app:layout_constraintTop_toBottomOf="@+id/linearlayout_add_ingredients" />
+
+        <Button
+            android:id="@+id/button_add_procedure_step"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/manrope"
+            android:text="@string/label_plus"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="@+id/linearlayout_add_procedure"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
+            app:layout_constraintTop_toBottomOf="@+id/linearlayout_add_procedure" />
 
         <CheckBox
             android:id="@+id/checkbox_is_favorite"
@@ -244,9 +269,9 @@
             android:text="@string/label_fav"
             android:textColor="@color/white"
             android:textColorLink="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/guideline13"
-            app:layout_constraintStart_toStartOf="@+id/guideline12"
-            app:layout_constraintTop_toBottomOf="@+id/edittext_procedure" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right_1"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
+            app:layout_constraintTop_toBottomOf="@+id/button_add_procedure_step" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
