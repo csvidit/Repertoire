@@ -24,13 +24,17 @@ import com.viditkhandelwal.repertoire.database.DBHelper;
 import com.viditkhandelwal.repertoire.database.Recipe;
 import com.viditkhandelwal.repertoire.databinding.ActivityAddRecipeBinding;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class AddRecipeActivity extends AppCompatActivity {
 
     private ActivityAddRecipeBinding binding;
     private EditText currentIngredient;
-    private int numIngredients;
     private EditText currentProcedure;
-    private int numProcedureSteps;
+    private List<EditText> ingredients;
+    private List<EditText> procedureSteps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +42,12 @@ public class AddRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_recipe);
         binding = ActivityAddRecipeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        ingredients = new ArrayList<EditText>();
+        procedureSteps = new ArrayList<EditText>();
+        ingredients.add(binding.edittextIngredients);
+        procedureSteps.add(binding.edittextProcedure);
         currentIngredient = binding.edittextIngredients;
-        numIngredients = 0;
         currentProcedure = binding.edittextProcedure;
-        numProcedureSteps = 0;
         binding.buttonSubmitRecipe.setOnClickListener(button_submit_recipe_clickListener);
         binding.buttonAddIngredient.setOnClickListener(button_add_ingredient_clickListener);
         binding.buttonAddProcedureStep.setOnClickListener(button_add_procedure_step_clickListener);
@@ -54,6 +60,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         public void onClick(View view) {
             ViewGroup parent = binding.getRoot();
             EditText newIngredientEditText = generateIngredientView();
+            ingredients.add(newIngredientEditText);
             currentIngredient = newIngredientEditText;
             Log.d(LOG_TAG, "New Ingredient EditText ID: "+currentIngredient.getId());
             LinearLayout layout = binding.linearlayoutAddIngredients;
@@ -79,6 +86,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         public void onClick(View view) {
             ViewGroup parent = binding.getRoot();
             EditText newProcedureStepEditText = generateProcedureView();
+            procedureSteps.add(newProcedureStepEditText);
             currentProcedure = newProcedureStepEditText;
             Log.d(LOG_TAG, "New Procedure Step EditText ID: "+currentProcedure.getId());
             LinearLayout layout = binding.linearlayoutAddProcedure;
@@ -107,6 +115,18 @@ public class AddRecipeActivity extends AppCompatActivity {
         this.currentIngredient = currentIngredient;
     }
 
+    private String parseList(List<EditText> list)
+    {
+        String returnString="";
+        Iterator<EditText> iter = list.iterator();
+        while(iter.hasNext())
+        {
+            returnString += iter.next().getText().toString()+"<br>";
+        }
+        returnString.substring(0, returnString.length()-5);
+        return returnString;
+    }
+
     private View.OnClickListener button_submit_recipe_clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -114,10 +134,10 @@ public class AddRecipeActivity extends AppCompatActivity {
             String name = binding.edittextRecipeName.getText().toString();
             int timeTaken = Integer.valueOf(binding.edittextTimeTaken.getText().toString());
             int serves = Integer.valueOf(binding.edittextServes.getText().toString());
-            String ingredients = binding.edittextIngredients.getText().toString();
-            String procedure = binding.edittextProcedure.getText().toString();
+            String ingredientString = parseList(ingredients);
+            String procedureString = parseList(procedureSteps);
             boolean isFavorite = binding.checkboxIsFavorite.isChecked();
-            helper.addRecipe(new Recipe(name, timeTaken, serves, isFavorite, ingredients, procedure));
+            helper.addRecipe(new Recipe(name, timeTaken, serves, isFavorite, ingredientString, procedureString));
             Toast.makeText(AddRecipeActivity.this, "Recipe successfully added", Toast.LENGTH_SHORT).show();
             finish();
         }

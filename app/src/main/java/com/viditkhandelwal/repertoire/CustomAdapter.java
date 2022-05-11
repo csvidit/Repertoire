@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -46,13 +45,15 @@ public class CustomAdapter extends BaseAdapter {
         }
 
         TextView recipeName = convertView.findViewById(R.id.textview_list_recipe_name);
-        ImageView image = convertView.findViewById(R.id.imageview_list_recipe_image);
+        TextView timeTaken = convertView.findViewById(R.id.textview_list_time_taken);
+//        ImageView image = convertView.findViewById(R.id.imageview_list_recipe_image);
         RatingBar isFavorite = convertView.findViewById(R.id.ratingbar_list_recipe_rating);
 
         Recipe currRecipe = recipes.get(position);
 
         recipeName.setText(currRecipe.getName());
-        image.setImageResource(R.drawable.rdotwhite);
+        timeTaken.setText(Recipe.parseTime(currRecipe.getTime()));
+//        image.setImageResource(R.drawable.rdotwhite);
         return convertView;
     }
 }

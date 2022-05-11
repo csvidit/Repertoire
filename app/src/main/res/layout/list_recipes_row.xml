@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageview_list_recipe_image" />
 
     <TextView
-        android:id="@+id/textview_list_serves"
+        android:id="@+id/textview_list_time_taken"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/manrope"
@@ -50,7 +50,7 @@
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="textview_list_recipe_name,textview_list_serves"
+        app:constraint_referenced_ids="textview_list_recipe_name,textview_list_time_taken"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_list_recipe_image"
         app:layout_constraintTop_toTopOf="@+id/imageview_list_recipe_image"
         tools:layout_editor_absoluteX="274dp" />

@@ -47,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_add_recipe:
                 Intent toAddRecipe = new Intent(this, AddRecipeActivity.class);
                 startActivity(toAddRecipe);
+                setRecipeList();
                 break;
         }
 
