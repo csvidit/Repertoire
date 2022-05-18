@@ -1,20 +1,28 @@
 package com.viditkhandelwal.repertoire.database;
 
+import static com.viditkhandelwal.repertoire.Utils.LOG_TAG;
+
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.ByteArrayInputStream;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -33,6 +41,9 @@ public class DBHelper extends SQLiteOpenHelper {
 //    public static final String COL_IMAGE="image";
 
     public static DBHelper myInstance;
+
+//    public static FirebaseDatabase firebaseDB;
+    public static FirebaseStorage firebaseStorage;
 
 
     private DBHelper(@Nullable Context context) {
@@ -68,6 +79,8 @@ public class DBHelper extends SQLiteOpenHelper {
         if(myInstance == null)
         {
             myInstance = new DBHelper(context);
+//            firebaseDB = FirebaseDatabase.getInstance();
+            firebaseStorage = FirebaseStorage.getInstance();
         }
         return myInstance;
     }
@@ -118,6 +131,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public long addRecipe(Recipe recipe)
     {
+        //getting an instance of a writeable SQLite Database
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_NAME, recipe.getName());
@@ -127,9 +141,41 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COL_INGREDIENTS, recipe.getIngredients());
         cv.put(COL_PROCEDURE, recipe.getProcedure());
 
+        //Adding everything except the image to the SQLite Database
         long result = db.insert(TABLE_RECIPE, null, cv);
 
         db.close();
+
+//        DatabaseReference firebaseDBReference = firebaseDB.getReference();
+
+        //Getting a reference to the Firebase Storage Location and storing the Image (Drawable) there
+        StorageReference storageRef = firebaseStorage.getReference();
+        String newRecipeImageFileName = String.valueOf(result)+"_"+recipe.getName();
+        StorageReference newRecipeImageRef = storageRef.child(newRecipeImageFileName+".jpg");
+
+        //Converting the Drawable to a ByteArray for transfer to Firebase Storage
+        Bitmap bitmap = ((BitmapDrawable) recipe.getImage()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageData = baos.toByteArray();
+
+        UploadTask ut = newRecipeImageRef.putBytes(imageData);
+        ut.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(LOG_TAG, "Image Upload Failed");
+                Log.d(LOG_TAG, e.getMessage());
+                Log.d(LOG_TAG, e.getStackTrace().toString());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(LOG_TAG, "Image Upload Successful");
+            }
+        });
+
+
+
         return result;
     }
 

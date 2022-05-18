@@ -1,5 +1,7 @@
 package com.viditkhandelwal.repertoire.database;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,8 @@ public class Recipe {
     private boolean isFavorite;
     private String ingredients;
     private String procedure;
-    private byte[] image;
+//    private byte[] image;
+    private Drawable image;
 
     public Recipe(int id, String name, int time, int serves, boolean isFavorite, String ingredients, String procedure) {
         this.id = id;
@@ -31,6 +34,16 @@ public class Recipe {
         this.isFavorite = isFavorite;
         this.ingredients = ingredients;
         this.procedure = procedure;
+    }
+
+    public Recipe(String name, int time, int serves, boolean isFavorite, String ingredients, String procedure, Drawable image) {
+        this.name = name;
+        this.time = time;
+        this.serves = serves;
+        this.isFavorite = isFavorite;
+        this.ingredients = ingredients;
+        this.procedure = procedure;
+        this.image = image;
     }
 
     public static List<String> parse(String s)
@@ -142,7 +155,12 @@ public class Recipe {
         return procedure;
     }
 
-    public byte[] getImage() {
+//    public byte[] getImage() {
+//        return image;
+//    }
+
+
+    public Drawable getImage() {
         return image;
     }
 }

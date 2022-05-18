@@ -2,28 +2,31 @@ package com.viditkhandelwal.repertoire;
 
 import static com.viditkhandelwal.repertoire.Utils.LOG_TAG;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.viditkhandelwal.repertoire.database.DBHelper;
 import com.viditkhandelwal.repertoire.database.Recipe;
 import com.viditkhandelwal.repertoire.databinding.ActivityAddRecipeBinding;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +38,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     private EditText currentProcedure;
     private List<EditText> ingredients;
     private List<EditText> procedureSteps;
+
+    public static final int FROM_ADD_PICTURE_INTENT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +56,29 @@ public class AddRecipeActivity extends AppCompatActivity {
         binding.buttonSubmitRecipe.setOnClickListener(button_submit_recipe_clickListener);
         binding.buttonAddIngredient.setOnClickListener(button_add_ingredient_clickListener);
         binding.buttonAddProcedureStep.setOnClickListener(button_add_procedure_step_clickListener);
+        binding.buttonAddPicture.setOnClickListener(button_add_picture_clickListener);
         Log.d(LOG_TAG, "Current Ingredient EditText ID: "+currentIngredient.getId());
         Log.d(LOG_TAG, "Current Procedure Step EditText ID: "+currentProcedure.getId());
+    }
+
+    private EditText generateEditTextView()
+    {
+        EditText editText = new EditText(this);
+        editText.setTextColor(getResources().getColor(R.color.white));
+        editText.setLinkTextColor(getResources().getColor(R.color.white));
+        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.white));
+        editText.setBackgroundTintList(colorStateList);
+        ViewGroup.LayoutParams newParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        editText.setLayoutParams(newParams);
+        editText.setId(View.generateViewId());
+        return editText;
     }
 
     private View.OnClickListener button_add_ingredient_clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             ViewGroup parent = binding.getRoot();
-            EditText newIngredientEditText = generateIngredientView();
+            EditText newIngredientEditText = generateEditTextView();
             ingredients.add(newIngredientEditText);
             currentIngredient = newIngredientEditText;
             Log.d(LOG_TAG, "New Ingredient EditText ID: "+currentIngredient.getId());
@@ -68,24 +87,11 @@ public class AddRecipeActivity extends AppCompatActivity {
         }
     };
 
-    private EditText generateIngredientView()
-    {
-        EditText editText = new EditText(this);
-        editText.setTextColor(getResources().getColor(R.color.white));
-        editText.setLinkTextColor(getResources().getColor(R.color.white));
-        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.white));
-        editText.setBackgroundTintList(colorStateList);
-        ViewGroup.LayoutParams newParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        editText.setLayoutParams(newParams);
-        editText.setId(View.generateViewId());
-        return editText;
-    }
-
     private View.OnClickListener button_add_procedure_step_clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             ViewGroup parent = binding.getRoot();
-            EditText newProcedureStepEditText = generateProcedureView();
+            EditText newProcedureStepEditText = generateEditTextView();
             procedureSteps.add(newProcedureStepEditText);
             currentProcedure = newProcedureStepEditText;
             Log.d(LOG_TAG, "New Procedure Step EditText ID: "+currentProcedure.getId());
@@ -94,17 +100,32 @@ public class AddRecipeActivity extends AppCompatActivity {
         }
     };
 
-    private EditText generateProcedureView()
-    {
-        EditText editText = new EditText(this);
-        editText.setTextColor(getResources().getColor(R.color.white));
-        editText.setLinkTextColor(getResources().getColor(R.color.white));
-        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.white));
-        editText.setBackgroundTintList(colorStateList);
-        ViewGroup.LayoutParams newParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        editText.setLayoutParams(newParams);
-        editText.setId(View.generateViewId());
-        return editText;
+    private View.OnClickListener button_add_picture_clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent toAddPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            startActivityForResult(toAddPhoto, FROM_ADD_PICTURE_INTENT);
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == FROM_ADD_PICTURE_INTENT && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                Drawable recipePicture = new BitmapDrawable(getResources(), bitmap);
+                Log.d(LOG_TAG, "Bitmap generated, Drawable made");
+                binding.imageviewRecipePicture.setImageDrawable(recipePicture);
+                Log.d(LOG_TAG, "ImageView set to Drawable");
+            } catch (FileNotFoundException fnfe) {
+                fnfe.printStackTrace();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
     }
 
     public EditText getCurrentIngredient() {
@@ -137,8 +158,10 @@ public class AddRecipeActivity extends AppCompatActivity {
             String ingredientString = parseList(ingredients);
             String procedureString = parseList(procedureSteps);
             boolean isFavorite = binding.checkboxIsFavorite.isChecked();
-            helper.addRecipe(new Recipe(name, timeTaken, serves, isFavorite, ingredientString, procedureString));
-            Toast.makeText(AddRecipeActivity.this, "Recipe successfully added", Toast.LENGTH_SHORT).show();
+            Drawable imagePicture = binding.imageviewRecipePicture.getDrawable();
+            helper.addRecipe(new Recipe(name, timeTaken, serves, isFavorite, ingredientString, procedureString, imagePicture));
+            Intent returnToHomeActivityIntent = new Intent();
+            setResult(Activity.RESULT_OK, returnToHomeActivityIntent);
             finish();
         }
     };

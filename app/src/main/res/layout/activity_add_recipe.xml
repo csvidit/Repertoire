@@ -84,6 +84,18 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left"
             app:layout_constraintTop_toTopOf="@+id/guideline_add_recipe_top" />
 
+        <Button
+            android:id="@+id/button_add_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/manrope"
+            android:text="@string/label_add_picture"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_add_recipe_top_1"
+            app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left"
+            app:layout_constraintTop_toBottomOf="@+id/textview_label_add_recipe" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_add_recipe_top"
             android:layout_width="wrap_content"
@@ -186,7 +198,7 @@
             android:id="@+id/textview_label_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="65dp"
+            android:layout_marginTop="150dp"
             android:fontFamily="@font/manrope"
             android:text="@string/label_recipe_name"
             android:textColor="@color/white"
@@ -272,6 +284,15 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right_1"
             app:layout_constraintStart_toStartOf="@+id/guideline_add_recipe_left_1"
             app:layout_constraintTop_toBottomOf="@+id/button_add_procedure_step" />
+
+        <ImageView
+            android:id="@+id/imageview_recipe_picture"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_add_recipe_top_1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right"
+            app:layout_constraintTop_toTopOf="@+id/guideline_add_recipe_top"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

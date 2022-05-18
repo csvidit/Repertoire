@@ -1,10 +1,13 @@
 package com.viditkhandelwal.repertoire;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.viditkhandelwal.repertoire.database.DBHelper;
 import com.viditkhandelwal.repertoire.database.Recipe;
@@ -20,6 +23,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ActivityHomeBinding binding;
     private List<Recipe> recipes;
     CustomAdapter adapter;
+
+    public static final int FROM_ADD_RECIPE_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +51,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.button_add_recipe:
                 Intent toAddRecipe = new Intent(this, AddRecipeActivity.class);
-                startActivity(toAddRecipe);
+                startActivityForResult(toAddRecipe, FROM_ADD_RECIPE_ACTIVITY);
                 setRecipeList();
                 break;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == FROM_ADD_RECIPE_ACTIVITY && resultCode == Activity.RESULT_OK)
+        {
+            Toast.makeText(this, "Recipe successfully added", Toast.LENGTH_SHORT).show();
+        }
     }
 }
