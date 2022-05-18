@@ -1,13 +1,22 @@
 # Repertoire
 
 **UNDER DEVELOPMENT**<br>
-A recipe book app for Android, using an SQLite Database.<br>
-Stores recipe images in Firebase Storage
+* A recipe book app for Android, using a local SQLite Database.<br>
+* Stores recipe thumbnail images in Firebase Storage
 Uses Android API 32<br>
 
 ## Ongoing Developments
-* User authentication via FirebaseAuth (currently planning only Google sign-in)
-* Firebase Storage connection for storing recipe photos
+* User authentication via FirebaseAuth (currently planning only Google sign-in). As of now, the app uses a single anonymous user and global read/write for testing purposes. 
 
 ## External Libraries
-Will be updated as app comes closer to completion
+* Firebase 
+  * Firebase core library
+  * Firebase Auth
+  * Firebase Storage
+  * Firebase Realtime Database
+* FirebaseUI
+  * FirebaseUI Storage
+  * Glide
+
+## Future Enhancements
+* Use a remote MySQL or similar database rather than a local database. 
