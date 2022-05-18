@@ -2,6 +2,7 @@
 
 **UNDER DEVELOPMENT**<br>
 A recipe book app for Android, using an SQLite Database.<br>
+Stores recipe images in Firebase Storage
 Uses Android API 32<br>
 
 ## Ongoing Developments
