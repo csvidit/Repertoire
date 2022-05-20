@@ -287,8 +287,8 @@
 
         <ImageView
             android:id="@+id/imageview_recipe_picture"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline_add_recipe_top_1"
             app:layout_constraintEnd_toStartOf="@+id/guideline_add_recipe_right"
             app:layout_constraintTop_toTopOf="@+id/guideline_add_recipe_top"

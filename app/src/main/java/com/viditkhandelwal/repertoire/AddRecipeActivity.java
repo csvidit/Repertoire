@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.viditkhandelwal.repertoire.database.DBHelper;
 import com.viditkhandelwal.repertoire.database.Recipe;
 import com.viditkhandelwal.repertoire.databinding.ActivityAddRecipeBinding;
@@ -38,6 +40,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private EditText currentProcedure;
     private List<EditText> ingredients;
     private List<EditText> procedureSteps;
+    private Drawable recipeImage;
 
     public static final int FROM_ADD_PICTURE_INTENT = 2;
 
@@ -116,9 +119,10 @@ public class AddRecipeActivity extends AppCompatActivity {
             Bitmap bitmap = null;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                Drawable recipePicture = new BitmapDrawable(getResources(), bitmap);
+                recipeImage = new BitmapDrawable(getResources(), bitmap);
                 Log.d(LOG_TAG, "Bitmap generated, Drawable made");
-                binding.imageviewRecipePicture.setImageDrawable(recipePicture);
+                //Set Recipe Image ImageView to a circular thumbnail of the image, different from the raw Drawable that was created from the File
+                Glide.with(this).load(bitmap).apply(RequestOptions.circleCropTransform()).into(binding.imageviewRecipePicture);
                 Log.d(LOG_TAG, "ImageView set to Drawable");
             } catch (FileNotFoundException fnfe) {
                 fnfe.printStackTrace();
@@ -158,8 +162,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             String ingredientString = parseList(ingredients);
             String procedureString = parseList(procedureSteps);
             boolean isFavorite = binding.checkboxIsFavorite.isChecked();
-            Drawable imagePicture = binding.imageviewRecipePicture.getDrawable();
-            helper.addRecipe(new Recipe(name, timeTaken, serves, isFavorite, ingredientString, procedureString, imagePicture));
+            helper.addRecipe(new Recipe(name, timeTaken, serves, isFavorite, ingredientString, procedureString, recipeImage));
             Intent returnToHomeActivityIntent = new Intent();
             setResult(Activity.RESULT_OK, returnToHomeActivityIntent);
             finish();

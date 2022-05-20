@@ -2,9 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayout_list_recipes_row"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:paddingStart="10dp"
+    android:paddingTop="25dp"
+    android:paddingBottom="25dp">
 
     <ImageView
         android:id="@+id/imageview_list_recipe_image"
@@ -14,26 +18,24 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textview_list_recipe_name,textview_list_time_taken"
+        app:layout_constraintBottom_toBottomOf="@+id/imageview_list_recipe_image"
+        app:layout_constraintTop_toTopOf="@+id/imageview_list_recipe_image"
+        tools:layout_editor_absoluteX="274dp" />
+
     <TextView
         android:id="@+id/textview_list_recipe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/manrope_medium"
+        android:layout_marginStart="25dp"
+        android:fontFamily="@font/dm_serif_display"
         android:text="TextView"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="@+id/imageview_list_recipe_image"
-        tools:layout_editor_absoluteX="65dp" />
-
-    <RatingBar
-        android:id="@+id/ratingbar_list_recipe_rating"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
-        android:numStars="1"
-        app:layout_constraintBottom_toBottomOf="@+id/imageview_list_recipe_image"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageview_list_recipe_image"
         app:layout_constraintTop_toTopOf="@+id/imageview_list_recipe_image" />
 
     <TextView
@@ -47,11 +49,15 @@
         app:layout_constraintStart_toStartOf="@+id/textview_list_recipe_name"
         app:layout_constraintTop_toBottomOf="@+id/textview_list_recipe_name" />
 
-    <androidx.constraintlayout.widget.Group
+    <RatingBar
+        android:id="@+id/ratingbar_list_recipe_rating"
+        style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="textview_list_recipe_name,textview_list_time_taken"
+        android:layout_marginEnd="25dp"
+        android:numStars="1"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_list_recipe_image"
-        app:layout_constraintTop_toTopOf="@+id/imageview_list_recipe_image"
-        tools:layout_editor_absoluteX="274dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageview_list_recipe_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

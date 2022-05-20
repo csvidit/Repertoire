@@ -14,9 +14,21 @@ public class Recipe {
     private boolean isFavorite;
     private String ingredients;
     private String procedure;
-//    private byte[] image;
+    private String imageName;
     private Drawable image;
 
+    public Recipe(int id, String name, int time, int serves, boolean isFavorite, String ingredients, String procedure, String imageName) {
+        this.id = id;
+        this.name = name;
+        this.time = time;
+        this.serves = serves;
+        this.isFavorite = isFavorite;
+        this.ingredients = ingredients;
+        this.procedure = procedure;
+        this.imageName = imageName;
+    }
+
+    //Constructor for when the user does not add a Recipe Image
     public Recipe(int id, String name, int time, int serves, boolean isFavorite, String ingredients, String procedure) {
         this.id = id;
         this.name = name;
@@ -27,6 +39,7 @@ public class Recipe {
         this.procedure = procedure;
     }
 
+    //Constructor for when the Recipe does not need an id AND user does not add a Recipe Image
     public Recipe(String name, int time, int serves, boolean isFavorite, String ingredients, String procedure) {
         this.name = name;
         this.time = time;
@@ -36,7 +49,20 @@ public class Recipe {
         this.procedure = procedure;
     }
 
+    //Constructor for when the Recipe does not need an id AND user ADDS a Recipe Image
     public Recipe(String name, int time, int serves, boolean isFavorite, String ingredients, String procedure, Drawable image) {
+        this.name = name;
+        this.time = time;
+        this.serves = serves;
+        this.isFavorite = isFavorite;
+        this.ingredients = ingredients;
+        this.procedure = procedure;
+        this.image = image;
+    }
+
+    //Constructor for when the Recipe NEEDS an id AND user ADDS a Recipe Image
+    public Recipe(int id, String name, int time, int serves, boolean isFavorite, String ingredients, String procedure, Drawable image) {
+        this.id = id;
         this.name = name;
         this.time = time;
         this.serves = serves;
@@ -154,11 +180,6 @@ public class Recipe {
     public String getProcedure() {
         return procedure;
     }
-
-//    public byte[] getImage() {
-//        return image;
-//    }
-
 
     public Drawable getImage() {
         return image;
