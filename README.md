@@ -7,6 +7,7 @@ Uses Android API 32<br>
 
 ## Ongoing Developments
 * User authentication via FirebaseAuth (currently planning only Google sign-in). As of now, the app uses a single anonymous user and global read/write for testing purposes. 
+* Use a Google Cloud SQL database rather than a local database, connect it with FirebaseAuth.
 
 ## External Libraries
 * Firebase 
