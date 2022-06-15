@@ -34,7 +34,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation platform('com.google.firebase:firebase-bom:30.0.0')
@@ -56,6 +55,26 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
     // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:8.0.1'
+    // Litho
+    implementation 'com.facebook.litho:litho-core:0.41.2'
+    implementation 'com.facebook.litho:litho-widget:0.41.2'
+    annotationProcessor 'com.facebook.litho:litho-processor:0.41.2'
+    // SoLoader
+    implementation 'com.facebook.soloader:soloader:0.9.0'
+    // For integration with Fresco
+    implementation 'com.facebook.litho:litho-fresco:0.41.2'
+    // For testing
+    testImplementation 'com.facebook.litho:litho-testing:0.41.2'
+    // Sections
+    implementation 'com.facebook.litho:litho-sections-core:0.41.2'
+    implementation 'com.facebook.litho:litho-sections-widget:0.41.2'
+    compileOnly 'com.facebook.litho:litho-sections-annotations:0.41.2'
+    annotationProcessor 'com.facebook.litho:litho-sections-processor:0.41.2'
+    //Litho & Sections implementations end
+    //Google Cloud implementations
+    implementation platform('com.google.cloud:libraries-bom:25.4.0')
+    implementation 'com.google.cloud:google-cloud-spanner'
+    //Google Cloud implementations end
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

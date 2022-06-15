@@ -11,13 +11,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,13 +25,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.viditkhandelwal.repertoire.FirebaseStorageCallback;
-import com.viditkhandelwal.repertoire.HomeActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -151,6 +147,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.d(LOG_TAG, "File creation failed");
+                            callback.onFailure();
                         }
                     }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
@@ -224,7 +221,6 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = getReadableDatabase();
         String whereClause = String.format("%s = %o", COL_RECIPE_ID, recipe.getId());
-        int result = db.delete(TABLE_RECIPE, whereClause, null);
-        return result;
+        return db.delete(TABLE_RECIPE, whereClause, null);
     }
 }

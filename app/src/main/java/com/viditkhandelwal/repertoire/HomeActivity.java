@@ -15,16 +15,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.cloud.spanner.DatabaseClient;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.viditkhandelwal.repertoire.database.CloudSpannerDB;
 import com.viditkhandelwal.repertoire.database.DBHelper;
 import com.viditkhandelwal.repertoire.database.Recipe;
 import com.viditkhandelwal.repertoire.databinding.ActivityHomeBinding;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -58,6 +57,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         binding.buttonAddRecipe.setOnClickListener(this);
+        DatabaseClient dbClient = CloudSpannerDB.getInstance().getDbClient();
+
     }
 
     private void setRecipeList()
@@ -71,6 +72,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 binding.listviewRecipes.setAdapter(adapter);
                 Log.d(LOG_TAG, "Set Recipe List function call ended");
             }
+
+            @Override
+            public void onFailure() {
+                Log.d(LOG_TAG, "Firebase Storage Retrieve Failed");
+            }
+
+
         });
 
     }

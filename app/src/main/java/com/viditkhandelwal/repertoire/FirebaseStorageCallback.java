@@ -7,5 +7,6 @@ import java.util.List;
 public interface FirebaseStorageCallback {
 
     public void onSuccess(List<Recipe> recipes);
+    public void onFailure();
 
 }

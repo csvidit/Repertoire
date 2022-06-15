@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.viditkhandelwal.repertoire.database.Recipe;
 
 import java.util.List;
@@ -28,17 +30,17 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return recipes.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return recipes.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
@@ -57,7 +59,9 @@ public class CustomAdapter extends BaseAdapter {
 
         recipeName.setText(currRecipe.getName());
         timeTaken.setText(Recipe.parseTime(currRecipe.getTime()));
-        image.setImageDrawable(currRecipe.getImage());
+//        image.setImageDrawable(currRecipe.getImage());
+        Glide.with(context).load(currRecipe.getImage()).apply(RequestOptions.circleCropTransform()).into(image);
+        isFavorite.setRating(Recipe.parseFavorite(currRecipe.isFavorite()));
 
         Log.d(LOG_TAG, "CustomAdapter has set views in convertView");
 
